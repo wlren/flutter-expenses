@@ -25,7 +25,7 @@ class Chart extends StatelessWidget {
         'Day': DateFormat.E().format(weekDay).substring(0, 3),
         'amount': totalSum
       };
-    });
+    }).reversed.toList();
   }
 
   double get maxSpendings {
@@ -39,15 +39,22 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
-      child: Row(
-        children: groupedTransactionsValues.map((data) {
-          return ChartBar(
-              data['Day'],
-              data['amount'],
-              maxSpendings == 0.0
-                  ? 0.0
-                  : (data['amount'] as double) / maxSpendings);
-        }).toList(),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactionsValues.map((data) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                  data['Day'],
+                  data['amount'],
+                  maxSpendings == 0.0
+                      ? 0.0
+                      : (data['amount'] as double) / maxSpendings),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
